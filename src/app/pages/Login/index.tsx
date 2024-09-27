@@ -19,10 +19,9 @@ export function Login() {
 
       try {
         await axios.get('http://localhost:8000/sanctum/csrf-cookie')
-        const { data } = await api.post('/login', values)
-
+        await api.post('/login', values)
+        const { data } = await api.get('user')
         console.log(data)
-        
       } catch (error) {
         console.log(error)
       }
