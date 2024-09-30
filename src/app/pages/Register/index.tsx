@@ -9,20 +9,28 @@ import { Center } from "@/components/Center"
 import { resisterUserInitialValues } from "@/utils/formikInitialValues/resisterUser"
 import { resisterUserVlidateSchema } from "@/utils/validateSchemas/userResisterSchema"
 import { api } from "@/services/api"
+import { useState } from "react"
+import Swal from "sweetalert2"
 
 export function Register() {
+  const [loadingRequest, setLoadingRequest] = useState(false)
   const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: resisterUserInitialValues,
     validationSchema: resisterUserVlidateSchema,
     onSubmit: async (values, { setErrors }) => {
+      setLoadingRequest(true)
       try {
         await axios.get("http://localhost:8000/sanctum/csrf-cookie")
         const { data } = await api.post("/users", values)
         console.log(data)
+        setLoadingRequest(false)
+        await Swal.fire({
+          title: "O usuário foi cadastrado com sucesso!",
+          icon: "success"
+        })
         navigate("/login")
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (axiosError: any) {
         const errors = axiosError.response.data.errors
@@ -72,7 +80,10 @@ export function Register() {
         </Form.Group>
 
         <Stack direction="horizontal" gap={2}>
-          <Button type="submit">Cadastrar</Button>
+          <Button type="submit" disabled={loadingRequest}>
+            {loadingRequest ? "Cadastrando..." : "Cadastrar"}
+          </Button>
+
           <Button type="button" as="a" href="/login" variant="secondary">
             Voltar
           </Button>

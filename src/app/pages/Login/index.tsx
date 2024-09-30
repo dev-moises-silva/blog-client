@@ -1,5 +1,5 @@
 import { useFormik } from "formik"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Stack from "react-bootstrap/Stack"
@@ -26,12 +26,16 @@ export function Login() {
         await axios.get("http://localhost:8000/sanctum/csrf-cookie")
         await axios.post("http://localhost:8000/login", values)
         navigate("/")
-      } catch (axiosError) {
-        console.log(axiosError)
-        Swal.fire({
-          title: "Login ou senha invalida!",
-          icon: "error"
-        })
+      } catch (error) {
+        const { status } = error as AxiosError
+
+        if(status === 401) {
+          Swal.fire({
+            title: "Login ou senha invalida!",
+            icon: "error"
+          })
+        }
+        
         setLoadingLogin(false)
       }
     }

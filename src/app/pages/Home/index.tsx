@@ -10,7 +10,7 @@ import { api } from "@/services/api"
 import { Post } from "@/types/Post"
 import { PostMessage } from "@/components/PostMessage"
 import { AppContext } from "@/context/appContext"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 
 export function Home() {
   const { user, setUser } = useContext(AppContext)
@@ -22,8 +22,18 @@ export function Home() {
       const { data } = await api.get("/user")
       setUser(data)
     } catch (error) {
+      const { status } = (error as AxiosError)
+      
+      if(status === 401) {
+        navigate("/login")
+      }
+
+      if(status === 419) {
+        await axios.get(`${window.baseHostUrl}/sactum/csrf-cookie`)
+        fetchUser()
+      }
+      
       console.log(error)
-      navigate("/login")
     }
   }
 
@@ -66,8 +76,8 @@ export function Home() {
       }}
     >
       <section>
-        <DropdownButton title="Opções">
-          <Dropdown.Item onClick={logout}>Sair</Dropdown.Item>
+        <DropdownButton title="Opções" disabled={!user}>
+          <Dropdown.Item onClick={logout} as="button">Sair</Dropdown.Item>
         </DropdownButton>
       </section>
 

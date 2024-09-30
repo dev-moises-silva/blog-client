@@ -5,13 +5,15 @@ import * as Yup from "yup"
 
 import { api } from "@/services/api"
 import { Post } from "@/types/Post"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { AppContext } from "@/context/appContext"
 
 type Props = {
   addPost: (post: Post) => void
 }
 
 export function PostForm({ addPost }: Props) {
+  const { user } = useContext(AppContext)
   const [loadingRequest, setLoadingRequest] = useState(false)
 
   const formik = useFormik({
@@ -62,7 +64,7 @@ export function PostForm({ addPost }: Props) {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button type="submit" disabled={loadingRequest}>{loadingRequest ? "Postando..." : "Postar"}</Button>
+      <Button type="submit" disabled={loadingRequest || !user}>{loadingRequest ? "Postando..." : "Postar"}</Button>
     </Form>
   )
 }
