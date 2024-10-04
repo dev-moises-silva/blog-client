@@ -9,11 +9,12 @@ import { api } from "@/services/api"
 
 type Props = {
   post: Post
+  removePost: (postId: number) => void
 }
 
-export function PostMessage({ post }: Props) {
+export function PostMessage({ post, removePost }: Props) {
   const { user } = useContext(AppContext)
-  const postDateCreate = window.dayjs(post.created_at).fromNow()
+  const postDateCreate = window.dayjs(post?.created_at).fromNow()
 
   async function deletePost(post_id: number) {
     const swalResult = await Swal.fire({
@@ -27,6 +28,7 @@ export function PostMessage({ post }: Props) {
     if(swalResult.isConfirmed) {
       try {
         await api.delete(`posts/${post_id}`)
+        removePost(post.id)
       } catch (error) {
         console.log(error)
       }
@@ -37,11 +39,11 @@ export function PostMessage({ post }: Props) {
     <div className="bg-secondary-subtle rounded-2 p-2">
       <div className="d-flex justify-content-between gap-4 mb-2">
         <div>
-          {`${user.id === post.user_id ? "Você" : post.author} | ${postDateCreate}`}
+          {`${user?.id === post.user_id ? "Você" : post.author} | ${postDateCreate}`}
         </div>
 
         <div>
-          {(user.id === post.user_id) && (
+          {(user?.id === post.user_id) && (
             <CloseButton onClick={() => deletePost(post.id)}/>
           )}
         </div>

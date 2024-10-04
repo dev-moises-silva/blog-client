@@ -47,6 +47,11 @@ export function Home() {
     }
   }
 
+  function removePost(postId: number) {
+    const newPosts = posts.filter(post => post.id != postId)
+    setPosts(newPosts)
+  }
+
   useEffect(() => {
     fetchUser()
     fetchPosts()
@@ -90,7 +95,7 @@ export function Home() {
           gap={2}
         >
           {posts.map(post => (
-            <PostMessage key={post.id} post={post}/>
+            <PostMessage key={post.id} post={post} removePost={removePost}/>
           ))}
         </Stack>
       </section>

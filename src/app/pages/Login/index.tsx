@@ -1,3 +1,6 @@
+import { useState } from "react"
+
+import Swal from "sweetalert2"
 import { useFormik } from "formik"
 import axios, { AxiosError } from "axios"
 import Form from "react-bootstrap/Form"
@@ -7,8 +10,6 @@ import Stack from "react-bootstrap/Stack"
 import { loginUserValidateSchema } from "@/utils/validateSchemas/userLoginSchema"
 import { useNavigate } from "react-router-dom"
 import { Center } from "@/components/Center"
-import { useState } from "react"
-import Swal from "sweetalert2"
 
 export function Login() {
   const navigate = useNavigate()
