@@ -16,7 +16,7 @@ window.dayjs = dayjs
 window.baseHostUrl = import.meta.env.VITE_BASE_HOST_URL
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+  // <StrictMode>
     <App />
-  </StrictMode>
+  // </StrictMode>
 );

@@ -3,7 +3,7 @@ import { useContext } from "react"
 import CloseButton from "react-bootstrap/CloseButton"
 import Swal from "sweetalert2"
 
-import { AppContext } from "@/context/appContext"
+import { AppContext } from "@/contexts/appContext"
 import { Post } from "@/types/Post"
 import { api } from "@/services/api"
 

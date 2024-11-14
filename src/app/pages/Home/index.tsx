@@ -9,8 +9,9 @@ import { PostForm } from "@/components/forms/PostForm"
 import { api } from "@/services/api"
 import { Post } from "@/types/Post"
 import { PostMessage } from "@/components/PostMessage"
-import { AppContext } from "@/context/appContext"
+import { AppContext } from "@/contexts/appContext"
 import axios, { AxiosError } from "axios"
+import Swal from "sweetalert2"
 
 export function Home() {
   const { user, setUser } = useContext(AppContext)
@@ -22,15 +23,24 @@ export function Home() {
       const { data } = await api.get("/user")
       setUser(data)
     } catch (error) {
-      const { status } = (error as AxiosError)
+      const { status } = error as AxiosError
       
-      if(status === 401) {
+      if (status === 401 || status === 419) {
         navigate("/login")
       }
 
-      if(status === 419) {
-        await axios.get(`${window.baseHostUrl}/sactum/csrf-cookie`)
-        fetchUser()
+      // if (status === 419) {
+      //   await axios.get(`${window.baseHostUrl}/sactum/csrf-cookie`)
+      //   fetchUser()
+      // }
+
+      if (status === 403) {
+        await Swal.fire({
+          title: "Faça a verificação do seu email!",
+          icon: "error"
+        })
+
+        navigate("/login");
       }
       
       console.log(error)

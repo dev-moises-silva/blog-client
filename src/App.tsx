@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Login } from './app/pages/Login'
 import { Home } from './app/pages/Home'
 import { Register } from '@/pages/Register'
-import { AppContextProvider } from '@/context/appContext'
+import { AppContextProvider } from '@/contexts/appContext'
 
 const router = createBrowserRouter([
   {

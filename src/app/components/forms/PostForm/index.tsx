@@ -6,7 +6,7 @@ import * as Yup from "yup"
 import { api } from "@/services/api"
 import { Post } from "@/types/Post"
 import { useContext, useState } from "react"
-import { AppContext } from "@/context/appContext"
+import { AppContext } from "@/contexts/appContext"
 
 type Props = {
   addPost: (post: Post) => void

@@ -32,7 +32,7 @@ export function Login() {
 
         if(status === 401) {
           Swal.fire({
-            title: "Login ou senha invalida!",
+            title: "Login ou senha inválida!",
             icon: "error"
           })
         }

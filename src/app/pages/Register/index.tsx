@@ -36,6 +36,7 @@ export function Register() {
         const errors = axiosError.response.data.errors
         
         setErrors(errors)
+        setLoadingRequest(false)
       }
     }
   })
