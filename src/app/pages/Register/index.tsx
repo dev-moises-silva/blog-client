@@ -22,7 +22,7 @@ export function Register() {
     onSubmit: async (values, { setErrors }) => {
       setLoadingRequest(true)
       try {
-        await axios.get("http://localhost:8000/sanctum/csrf-cookie")
+        await axios.get(window.baseHostUrl + "/sanctum/csrf-cookie")
         const { data } = await api.post("/users", values)
         console.log(data)
         setLoadingRequest(false)

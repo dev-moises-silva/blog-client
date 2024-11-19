@@ -24,8 +24,8 @@ export function Login() {
     onSubmit: async (values) => {
       setLoadingLogin(true)
       try {
-        await axios.get("http://localhost:8000/sanctum/csrf-cookie")
-        await axios.post("http://localhost:8000/login", values)
+        await axios.get(window.baseHostUrl + "/sanctum/csrf-cookie")
+        await axios.post(window.baseHostUrl + "/login", values)
         navigate("/")
       } catch (error) {
         const { status } = error as AxiosError
@@ -38,6 +38,7 @@ export function Login() {
         }
         
         setLoadingLogin(false)
+        console.log(error)
       }
     }
   })

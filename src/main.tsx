@@ -9,6 +9,10 @@ import App from "./App"
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "@sweetalert2/theme-bootstrap-4/bootstrap-4.min.css"
+import axios from "axios"
+
+axios.defaults.withCredentials = true
+axios.defaults.withXSRFToken = true
 
 dayjs.extend(relativeTime)
 dayjs.locale("pt-br")
