@@ -5,18 +5,28 @@ import Stack from "react-bootstrap/Stack"
 import DropdownButton from "react-bootstrap/DropdownButton"
 import Dropdown from "react-bootstrap/Dropdown"
 
-import { PostForm } from "@/components/forms/PostForm"
-import { api } from "@/services/api"
-import { Post } from "@/types/Post"
-import { PostMessage } from "@/components/PostMessage"
-import { AppContext } from "@/contexts/appContext"
-import axios, { AxiosError } from "axios"
 import Swal from "sweetalert2"
+import axios, { AxiosError } from "axios"
+
+import { AppContext } from "@/contexts/appContext"
+import { PostForm } from "@/components/forms/PostForm"
+import { PostMessage } from "@/components/PostMessage"
+import { Post } from "@/types/Post"
+import { PostCreated } from "@/types/events/PostCreated"
+import { api } from "@/services/api"
 
 export function Home() {
   const { user, setUser } = useContext(AppContext)
   const [posts, setPosts] = useState<Post[]>([])
   const navigate = useNavigate()
+
+  window.Echo.channel("posts")
+    .listen("PostCreated", handlePostCeated)
+
+  
+  function handlePostCeated({ post }: PostCreated) {
+    addPost(post);
+  }
 
   async function fetchUser() {
     try {
@@ -62,15 +72,16 @@ export function Home() {
     setPosts(newPosts)
   }
 
+  
+  function addPost(post: Post) {
+    setPosts([post, ...posts])
+  }
+  
   useEffect(() => {
     fetchUser()
     fetchPosts()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  function addPost(post: Post) {
-    setPosts([post, ...posts])
-  }
 
   async function logout() {
     try {
