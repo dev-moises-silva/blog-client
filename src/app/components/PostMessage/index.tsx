@@ -49,7 +49,7 @@ export function PostMessage({ post, removePost }: Props) {
         </div>
       </div>
 
-      <div>
+      <div className="text-break">
         {post.content}
       </div>
     </div>
