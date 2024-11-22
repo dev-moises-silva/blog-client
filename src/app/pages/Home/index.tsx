@@ -20,12 +20,12 @@ export function Home() {
   const [posts, setPosts] = useState<Post[]>([])
   const navigate = useNavigate()
 
-  window.Echo.channel("posts")
+  window.Echo.private("posts")
     .listen("PostCreated", handlePostCeated)
-
   
   function handlePostCeated({ post }: PostCreated) {
-    addPost(post);
+    // addPost(post);
+    console.log(post);
   }
 
   async function fetchUser() {
