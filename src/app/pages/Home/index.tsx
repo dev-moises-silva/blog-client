@@ -13,6 +13,7 @@ import { PostForm } from "@/components/forms/PostForm"
 import { PostMessage } from "@/components/PostMessage"
 import { Post } from "@/types/Post"
 import { PostCreated } from "@/types/events/PostCreated"
+import { PostDeleted } from "@/types/events/PostDeleted"
 import { api } from "@/services/api"
 
 export function Home() {
@@ -24,8 +25,11 @@ export function Home() {
     .listen("PostCreated", handlePostCeated)
   
   function handlePostCeated({ post }: PostCreated) {
-    // addPost(post);
-    console.log(post);
+    addPost(post);
+  }
+
+  function handlePostDeleted({ post_id } : PostDeleted) {
+    removePost(post_id)
   }
 
   async function fetchUser() {
