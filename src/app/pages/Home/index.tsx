@@ -23,6 +23,7 @@ export function Home() {
 
   window.Echo.private("posts")
     .listen("PostCreated", handlePostCeated)
+    .listen("PostDeleted", handlePostDeleted)
   
   function handlePostCeated({ post }: PostCreated) {
     addPost(post);
